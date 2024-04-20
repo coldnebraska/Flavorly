@@ -1,6 +1,6 @@
 const { Schema, model } = require('mongoose')
 const bcrypt = require('bcrypt');
-const { recipeSchema } = require('./Recipe');
+const favoriteSchema = require('./Favorite');
 
 const userSchema = new Schema({
   name: {
@@ -19,7 +19,10 @@ const userSchema = new Schema({
     required: true,
     unique: true,
   },
-  favorites: [{ type: recipeSchema }] 
+  profilePic: {
+    type: String
+  },
+  favorites: [favoriteSchema] 
 })
 
 userSchema.pre('save', async function (next) {

@@ -1,63 +1,48 @@
-import * as React from 'react';
-import  AuthService  from '../utils/auth';
+import  AuthService  from '../utils/auth'
 import { useMutation } from '@apollo/client'
 import { ADD_FAVORITE, REMOVE_FAVORITE } from '../utils/mutations'
 
-function List({ recipes, newRecipes }) {
+function List({ recipes, newRecipes, page }) {
     const [addFavorite, { error }] = useMutation(ADD_FAVORITE)
     const [removeFavorite, { err }] = useMutation(REMOVE_FAVORITE)
 
-    const handleChange = async (recipeId, e) => {
-        if (!e.target.checked) {
-            let singleRecipe
-            for (let i = 0; i < recipes.length; i++) {
-                if (recipes[i]._id == recipeId) {
-                    singleRecipe = recipes[i]
-                }
-            }
-            let token = AuthService.getUser();
+    const handleChange = async (recipe, e) => {
+        let token = AuthService.getUser()
+        
+        if (page == 'profile') {
             try {
                 const { data } = await removeFavorite({
                     variables: {
                         userId: token.data._id,
-                        recipeName: singleRecipe.name
+                        recipeId: recipe._id
                     }
                 })
+                window.location.reload()
             } catch (err) {
                 console.log(err)
             }
-        } else if (e.target.checked) {
-            let singleRecipe
-            for (let i = 0; i < recipes.length; i++) {
-                if (recipes[i]._id == recipeId) {
-                    singleRecipe = recipes[i]
-                }
-            }
-            let token = AuthService.getUser();
+        } else {
             try {
                 const { data } = await addFavorite({
                     variables: {
                         userId: token.data._id,
-                        name: singleRecipe.name,
-                        cookTime: singleRecipe.cook_time,
-                        difficulty: singleRecipe.difficulty,
-                        ingredients: singleRecipe.ingredients,
-                        rating: singleRecipe.rating,
+                        ...recipe
                     }
                 })
+                e.target.innerHTML = 'Added'
             } catch (err) {
                 console.log(err)
             }
         }
     }
 
-    if (newRecipes.length > 0) {
+    if (newRecipes && newRecipes.length > 0) {
         recipes = newRecipes
     }
     
     return (
-        <div className="search-list">
-            {recipes.map((recipe, index) => {
+        <>
+            {recipes.map((recipe) => {
                 let rating = ""
                 for (let i = 0; i < recipe.rating; i++) {
                     rating += "⭐"
@@ -65,7 +50,14 @@ function List({ recipes, newRecipes }) {
                 
                 return (
                 <div className="search-card" key={recipe._id}>
-                    <h1 className="search-title">{recipe.name} <input key={recipe._id} value={index} type="checkbox" onChange={(e) => handleChange(recipe._id, e)}/></h1>
+                    <div className="search-title">
+                        <h1>{recipe.name}</h1> 
+                        {page == "profile" ? (
+                            <button onClick={() => handleChange(recipe)}>Remove</button>
+                        ) : (
+                            <button onClick={(e) => handleChange(recipe, e)}>Save</button>
+                        )}
+                    </div>
                     <div className="search-content">
                         <p>Cook Time: {recipe.cook_time} mins</p>
                         <p>Rating: {rating}</p>
@@ -73,7 +65,7 @@ function List({ recipes, newRecipes }) {
                     </div>
                 </div>
             )})}
-        </div>
+        </>
     )
 }
 

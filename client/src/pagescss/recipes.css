@@ -7,7 +7,9 @@ body {
     padding: 5px;
 }
 
-.search-btn {
+.search-btn,
+.search-title button {
+    max-height: 40px;
     border: 1px solid black;
     background-color: rgba(0, 0, 0, 0.5);
     padding: .5rem 1rem;
@@ -25,12 +27,13 @@ body {
     border-radius: 5px;
     color: #fff;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    margin-left: 1rem;
     transition: all .2s ease-out;
 }
 
-.search-btn:hover, 
-.filter-btn:hover, 
-.results-btn:hover {
+.search-btn:hover,
+.search-title button:hover,
+.filter-btn:hover {
     cursor: pointer;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
 }
@@ -55,11 +58,17 @@ body {
 }
 
 .search-title {
+    display: flex;
+    justify-content: space-between;
     color: #fff;
-    font-size: 1.5rem;
     padding: 5px;
     padding-left: 10px;
     border-bottom: #dcc1ae solid 1px;
+}
+
+.search-title h1 {
+    font-size: 1.5rem;
+    width: fit-content;
 }
 
 .search-content {
@@ -73,32 +82,55 @@ body {
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
+    overflow: hidden;
+    overflow-y: scroll;
+    height: 150px;
+    border: #ae9a8b .5px solid;
 }
 
 .ingredient {
-    max-width: 20%;
+    width: 10%;
 }
 
-.filter {
-    margin: 0 1rem;
+.filter-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #c3ac9b;
+    border-top: #72665c solid 1px;
+    border-bottom: #72665c solid 1px;
+    margin: 1rem 0;
+    padding: 1rem 0;
 }
 
-.filter h5 {
-    margin-top: 2rem;
-    border-bottom: solid black 1px;
+.filter-container > div, h5 {
+    padding: 0 1rem;
 }
 
-.filter span {
-    margin-right: 1rem;
+.filter-container > select {
+    width: fit-content;
+    margin-left: 1rem;
+    padding: 0;
 }
 
-.results-btn {
+.filter-container button {
     border: 1px solid black;
     background-color: rgba(0, 0, 0, 0.5);
-    padding: .5rem 1rem;
+    padding: 0.5rem 1rem;
+    margin-left: 1rem;
     border-radius: 5px;
     color: #fff;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    margin-top: 1rem;
+    width: fit-content;
     transition: all .2s ease-out;
+}
+
+::-webkit-scrollbar {
+    background-color: #dcc1ae;
+    border: #72665c 1px solid;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #b09c8d;
+    border: #72665c 1px solid;
 }

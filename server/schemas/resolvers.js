@@ -1,5 +1,4 @@
-const User = require('../models/User')
-const { Recipe } = require('../models/Recipe')
+const { User, Recipe } = require('../models')
 const { signToken, AuthenticationError } = require('../utils/auth');
 
 const resolvers = {
@@ -7,12 +6,12 @@ const resolvers = {
     users: async () => {
       return User.find({})
     },
+    user: async (parent, { email }) => {
+      return User.findOne({ email })
+    },
     recipes: async () => {
       return Recipe.find();
     },
-    user: async (parent, { userId }) => {
-      return User.findOne({ _id: userId })
-    }
   },
   Mutation: {
     createRecipe: async (parent, args) => {
@@ -40,17 +39,17 @@ const resolvers = {
       const token = signToken(user)
       return { token, user}
     },
-    addFavorite: async (parent, { userId, name, cook_time, difficulty, ingredients, rating }) => {
+    addFavorite: async (parent, { userId, _id, cook_time, difficulty, ingredients, name, rating }) => {
       return await User.findOneAndUpdate(
         { _id: userId },
-        { $addToSet: { favorites: { name, cook_time, difficulty, ingredients, rating } } },
+        { $addToSet: { favorites: { _id, cook_time, difficulty, ingredients, name, rating } } },
         { new: true }
       )
     },
-    removeFavorite: async (parent, { userId, recipeName }) => {
+    removeFavorite: async (parent, { userId, _id }) => {
       return await User.findOneAndUpdate(
         { _id: userId },
-        { $pull: { favorites: { name: recipeName } } },
+        { $pull: { favorites: { _id } } },
         { new: true }
       )
     },

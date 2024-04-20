@@ -13,18 +13,18 @@ export const QUERY_RECIPES = gql`
   }
 `
 
-export const QUERY_FAVORITE_RECIPES = gql`
-  query Favorites($userId: ID!) {
-    user(userId: $userId) {
-      favorites {
-        _id
-        ingredients
-        cook_time
-        name
-        rating
-        difficulty
-      }
+export const QUERY_USER = gql`
+query User($email: String) {
+  user(email: $email) {
+    favorites {
+      _id
+      ingredients
+      cook_time
+      name
+      rating
+      difficulty
     }
+    profilePic
   }
+}
 `
-
