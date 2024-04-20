@@ -7,14 +7,14 @@ import { useQuery } from "@apollo/client"
 import { QUERY_RECIPES } from "../utils/queries"
 
 function SearchList() {
+  const { loading, data } = useQuery(QUERY_RECIPES)
+  
+  let recipes = data?.recipes
   const [newRecipes, setNewRecipes] = useState([])
   const [filterToggle, setFilterToggle] = useState(false)
   const [ingredients, setIngredients] = useState([])
   const [filterIngredients, setFilterIngredients] = useState([])
   const [searchInput, setSearchInput] = useState('')
-  
-  const { loading, data } = useQuery(QUERY_RECIPES)
-  let recipes
   
   const toggleFilter = () => {
     if (filterToggle) {
@@ -25,8 +25,6 @@ function SearchList() {
   }
   
   if (!loading) {
-    recipes = data?.recipes
-
     for (let i = 0; i < recipes.length; i++) {
       const recipeIngredients = recipes[i].ingredients.split(' ')
       for (let i = 0; i < recipeIngredients.length; i++) {
@@ -39,7 +37,6 @@ function SearchList() {
   }
   
   const filterSearch = () => {
-    setFilterToggle(false)
     // Search
     recipes = recipes.filter(function (recipe) {
       if (searchInput === '') {
@@ -58,31 +55,18 @@ function SearchList() {
     recipes = recipes.filter((recipe) => filterIngredients.every(function (i) {return recipe.ingredients.includes(i)}))
 
     // Cook Time
-    const cookTime = document.querySelectorAll("input[name=cookTime]:checked")
-
-    if (cookTime.length > 1) {
-      alert("Please select only one cook time")
-    } else if (cookTime.length === 1) {
-      recipes = recipes.filter(function (recipe) {return recipe.cook_time <= cookTime[0].value})
-    }
+    const cookTime = document.querySelector("select[name=cookTime]").value
+    recipes = recipes.filter(function (recipe) {return recipe.cook_time <= cookTime})
     
     // Difficulty
-    const difficulty = document.querySelectorAll("input[name=difficulty]:checked")
-    if (difficulty.length > 1) {
-      alert("Please select only one difficulty")
-    } else if (difficulty.length === 1) {
-      recipes = recipes.filter(function (recipe) {return recipe.difficulty <= difficulty[0].value})
-    }
+    const difficulty = document.querySelector("select[name=difficulty]").value
+    recipes = recipes.filter(function (recipe) {return recipe.difficulty <= difficulty})
     
     // Rating
-    const rating = document.querySelectorAll("input[name=rating]:checked")
+    const rating = document.querySelector("select[name=rating]").value
+    recipes = recipes.filter(function (recipe) {return recipe.rating >= rating})
     
-    if (rating.length > 1) {
-      alert("Please select only one rating")
-    } else if (rating.length === 1) {
-      recipes = recipes.filter(function (recipe) {return recipe.rating >= rating[0].value})
-    }
-    
+    console.log(cookTime, difficulty, rating)
     setNewRecipes(recipes)
 
     if (recipes.length === 0) {
@@ -102,44 +86,45 @@ function SearchList() {
       {loading ? (
         <div>Loading...</div>
         ) : (
-          <div className="filter">
+          <div>
             <button className="filter-btn" onClick={toggleFilter}>Filter</button>
             {filterToggle ? (
-              <div>
+              <div className="filter-container">
                 <h5>Ingredients:</h5>
-                <div className="ingredient-list">
-                  <Ingredients ingredients={ingredients}/>
-                </div>
+                <Ingredients ingredients={ingredients}/>
 
                 <h5>Cook Time: </h5>
-                <p>Please Select One</p>
-                <input type="checkbox" name="cookTime" value="10"/><span>Less Than 10 mins</span>
-                <input type="checkbox" name="cookTime" value="20"/><span>Less Than 20 mins</span>
-                <input type="checkbox" name="cookTime" value="30"/><span>Less Than 30 mins</span>
-                <input type="checkbox" name="cookTime" value=">30"/><span>More Than 30 mins</span>
+                <select name="cookTime">
+                  <option value='10'>Less than 10 mins</option>
+                  <option value='20'>Less than 20 mins</option>
+                  <option value='30'>Less than 30 mins</option>
+                  <option value='>30'>More than 30 mins</option>
+                </select>
 
                 <h5>Difficulty:</h5>
-                <p>Please Select One</p>
-                <input type="checkbox" name="difficulty" value="1"/><span>Easy</span>
-                <input type="checkbox" name="difficulty" value="2"/><span>Medium</span>
-                <input type="checkbox" name="difficulty" value="3"/><span>Hard</span>
+                <select name='difficulty'>
+                  <option value='1'>Easy</option>
+                  <option value='2'>Medium</option>
+                  <option value='3'>Hard</option>
+                </select>
 
                 <h5>Rating:</h5>
-                <p>Please Select One</p>
-                <input type="checkbox" name="rating" value={1}/><span>⭐</span>
-                <input type="checkbox" name="rating" value={2}/><span>⭐⭐</span>
-                <input type="checkbox" name="rating" value={3}/><span>⭐⭐⭐</span>
-                <input type="checkbox" name="rating" value={4}/><span>⭐⭐⭐⭐</span>
-                <input type="checkbox" name="rating" value={5}/><span>⭐⭐⭐⭐⭐</span>
+                <select name='rating' defaultValue={5}>
+                  <option value={1}>⭐</option>
+                  <option value={2}>⭐⭐</option>
+                  <option value={3}>⭐⭐⭐</option>
+                  <option value={4}>⭐⭐⭐⭐</option>
+                  <option value={5}>⭐⭐⭐⭐⭐</option>
+                </select>
 
-                <div>
-                  <button className="results-btn" onClick={filterSearch}>See Results</button>
-                </div>
+                <button onClick={filterSearch}>See Results</button>
               </div>
             ) : (
               <></>
             )}
-            <List recipes={recipes} newRecipes={newRecipes} />
+            <div className='search-list'>
+              <List recipes={recipes} newRecipes={newRecipes} page='Home'/>
+            </div>
           </div>
         )}
     </>

@@ -1,7 +1,7 @@
-const { Schema, model } = require('mongoose')
+const { Schema } = require('mongoose')
 const reviewSchema = require('./Review')
 
-const recipeSchema = new Schema({
+const favoriteSchema = new Schema({
   name: {
     type: String,
     required: true
@@ -19,7 +19,7 @@ const recipeSchema = new Schema({
     required: true
   },
   difficulty: {
-    type: String,
+    type: Number,
     required: true
   },
   rating: {
@@ -28,6 +28,4 @@ const recipeSchema = new Schema({
   reviews: [reviewSchema]
 })
 
-const Recipe = model('Recipe', recipeSchema)
-
-module.exports = Recipe
+module.exports = favoriteSchema

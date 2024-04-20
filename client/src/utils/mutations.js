@@ -25,16 +25,16 @@ mutation login($email: String!, $password: String!) {
 `
 
 export const ADD_FAVORITE = gql`
-  mutation addFavorite($userId: String!, $name: String!, $cookTime: Int!, $difficulty: Int!, $ingredients: String!, $rating: Int!) {
-    addFavorite(userId: $userId, name: $name, cook_time: $cookTime, difficulty: $difficulty, ingredients: $ingredients, rating: $rating) {
+  mutation addFavorite($userId: ID!, $_id: ID!, $cook_time: Int!, $difficulty: Int!, $ingredients: String!, $name: String!, $rating: Int!) {
+    addFavorite(userId: $userId, _id: $_id, cook_time: $cook_time, difficulty: $difficulty, ingredients: $ingredients, name: $name, rating: $rating) {
       _id
     }
   } 
 `
 
 export const REMOVE_FAVORITE = gql`
-  mutation removeFavorite($userId: String!, $recipeName: String!) {
-    removeFavorite(userId: $userId, recipeName: $recipeName) {
+  mutation removeFavorite($userId: ID!, $recipeId: ID!) {
+    removeFavorite(userId: $userId, _id: $recipeId) {
       _id
     }
   } 
