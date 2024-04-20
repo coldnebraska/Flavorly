@@ -1,20 +1,21 @@
 # Flavorly [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) 
 Taste the world, one recipe at a time
 
-## Description
+
+## Project Description
 The Flavorly application is a platform designed to help users discover and explore a vast collection of recipes from various cuisines and difficulty levels. Whether you're a seasoned chef looking for new culinary challenges or a novice cook searching for simple and delicious recipes, Flavorly has something for everyone.
 
 ## Table of Contents
-[Images](#images)  <br />
-[Features](#features) <br />
-[Technologies](#technologies) <br />
-[Installation](#setup-instructions)  <br />
-[Usage](#usage) <br />
-[Code Overview](#code-overview)  <br />
-[License](#license)  <br />
-[Credits](#credits) 
+[Images](#images)  
+[Features](#features)  
+[Technologies](#technologies)  
+[Installation](#setup-instructions)  
+[Usage](#usage)  
+[License](#license)  
+ [Credits](#credits) 
 
 ## Images
+![alt text](/client/public/images/readme_screenshot.png)
 
 ## Features
 ### User Authentication
@@ -34,7 +35,6 @@ Flavorly utilizes a modern tech stack to deliver a seamless user experience:
 - *Authentication*: JSON Web Tokens (JWT), bcrypt
 - *Deployment*: Heroku for backend, React build for frontend
 
-
 ## Setup Instructions
 To set up Flavorly on your local machine, follow these steps:
 
@@ -43,9 +43,6 @@ To set up Flavorly on your local machine, follow these steps:
 3. Set up MongoDB and configure the connection in ./config/connection.js.
 4. Run the server using npm run dev in the client directory.
 5. Access the application in your browser at http://localhost:3000.
-
-
-## Code Overview
 
 ### Frontend
 - *Homepage*: Displays a background image and a search bar for searching recipes.
@@ -67,10 +64,9 @@ This application uses the [MIT LICENSE](./LICENSE), please refer to the link for
 ## Credits
 Flavorly was developed by a team of passionate developers dedicated to creating a user-friendly platform for food enthusiasts. The application's frontend and backend were built with careful attention to detail, ensuring a smooth and enjoyable user experience.
 
-Please reach out to any of us for questions or comments about Flavorly. <br />
-[Cody Stepp](https://github.com/codystepp1006) <br />
-[DBrush](https://github.com/coldnebraska) <br />
-[gyerkes](https://github.com/gyerkes) <br />
-[Mykaomas](https://github.com/mykaomas) <br />
-[YvetteCarbajal](https://github.com/YvetteCarbajal) <br />
-
+Please reach out to any of us for questions or comments about Flavorly.  
+[Cody Stepp](https://github.com/codystepp1006)  
+[DBrush](https://github.com/coldnebraska)  
+[gyerkes](https://github.com/gyerkes)  
+[Mykaomas](https://github.com/mykaomas)  
+[YvetteCarbajal](https://github.com/YvetteCarbajal)  
