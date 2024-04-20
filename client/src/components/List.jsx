@@ -7,7 +7,13 @@ function List({ recipes, newRecipes, page }) {
     const [removeFavorite, { err }] = useMutation(REMOVE_FAVORITE)
 
     const handleChange = async (recipe, e) => {
-        let token = AuthService.getUser()
+        let token
+        try {
+            token = AuthService.getUser()
+        } catch (error) {
+            console.log(error)
+            alert('Please login to save recipes.')
+        }
         
         if (page == 'profile') {
             try {
